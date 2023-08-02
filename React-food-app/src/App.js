@@ -4,6 +4,7 @@ import Cart from "./Components/Cart/Cart";
 import Header from "./Components/Layout/Header";
 import Meals from "./Components/Meals/Meals";
 import CartProvider from "./store/CartProvider";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 function App() {
 
@@ -16,15 +17,17 @@ function App() {
   const hideCartHandler = () => {
     setCartIsShown(false)
   }
+
   return (
-    
-    <CartProvider>
-     {cartIsShown && <Cart  onClose={hideCartHandler} /> }
-      <Header onShowCart={showCartHandler}  />
-      <main>
-        <Meals />
-      </main>
-    </CartProvider>
+    <Auth0Provider domain="dev-4hboagaifh4ttizs.us.auth0.com" clientId="bFMLs4RnX5FtdKwK2agzixg3JbhXeyW6" redirectUri={window.location.origin}>
+      <CartProvider>
+        {cartIsShown && <Cart onClose={hideCartHandler} />}
+        <Header onShowCart={showCartHandler} />
+        <main>
+          <Meals />
+        </main>
+      </CartProvider>
+    </Auth0Provider>
   );
 }
 

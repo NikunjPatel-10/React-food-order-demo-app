@@ -2,18 +2,24 @@ import { useContext } from 'react'
 import classes from './MealItem.module.css'
 import MealItemForm from './MealItemForm'
 import CartContext from './../../../store/cart-context'
+import { useAuth0 } from '@auth0/auth0-react'
 const MealItem = (props) => {
     const cartCtx = useContext(CartContext)
     const price = `$ ${props.price.toFixed(2)}`
-
+    const { loginWithPopup, isAuthenticated } = useAuth0()
     const addToCartHandler = (amount) => {
-        console.log(amount);
-        cartCtx.addItem({
-            id: props.id,
-            name: props.name,
-            amount: amount,
-            price: props.price
-        });
+        if (isAuthenticated) {
+
+            console.log(amount);
+            cartCtx.addItem({
+                id: props.id,
+                name: props.name,
+                amount: amount,
+                price: props.price
+            });
+        } else {
+            loginWithPopup()
+        }
     };
     return (
         <li className={classes.meal}>
